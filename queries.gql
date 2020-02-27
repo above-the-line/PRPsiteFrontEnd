@@ -1,0 +1,31 @@
+mutation createUserAvi{
+  createUser(
+    user_name:"Avi",
+    user_email:"Avi",
+    user_password:"Avi"
+  ){
+		user_name 
+  }
+}
+
+query{
+  users{
+    user_name
+  }
+}
+
+
+
+
+mutation{
+  signup(
+    user_name:"c",
+    user_email:"c",
+    user_password:"pass"
+  ){
+    token
+    user{
+     user_name 
+    }
+  }
+}
