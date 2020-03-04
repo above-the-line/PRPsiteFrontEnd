@@ -1,9 +1,11 @@
 import React, { Component } from 'react'
-import ProjectList from './ProjectList';
+// import ProjectList from './ProjectList';
+import CreateProject from './CreateProject'
 
 class App extends Component {
   render() {
-    return < ProjectList />
+    return < CreateProject />
+    
   }
 }
 

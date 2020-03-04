@@ -1,33 +1,56 @@
 import React, { Component } from 'react'
 import Project from './Project'
+import { Query } from 'react-apollo'
+import gql from 'graphql-tag'
+
+
+// This tagged template literal
+// is passing the string wrapped in backticks
+// to a gql function (which is defined
+// in graphql-tag module / dependency )
+// The returned string query is passed to
+// Apollo <Query /> component below as a prop
+const PROJECTS_QUERY = gql`
+    {
+      projects{
+        id
+        project_name
+        project_year
+        project_category{
+          short_film
+        }
+      }
+    }
+`
+
 
 
 
 class ProjectList extends Component {
   render() {
-    const ProjectsToRender = [
-        // Mock data, each entry must have an id field
-      {
-        id: '1',
-        name: 'The Good Daughter',
-        year: '2020',
-        url: 'https://www.prismagraphql.com',
-      },
-      {
-        id: '2',
-        name: 'The Feeling of Life',
-        year: '2017',
-        url: 'https://www.apollographql.com/docs/react/',
-      },
-    ]
-
+    // Query component provides us with
+    // "render prop function"
+    // which is why ProjectsToRender is 
+    // returned as a function result
+    // it is returned from server call
     return (
-      <div>{ProjectsToRender.map(
-        // Sending these objects to props
-        // You must specify an id, and then pass the entire project object
-          project => <Project key={project.id}   project={project} /> 
-          )}
-      </div>
+      <Query query = {PROJECTS_QUERY}>
+          { ({ loading, error, data }) => {
+            if (loading) return <div>Fetching</div>
+            if (error) return <div>Error</div>
+
+            // This is the structure of the result of the GQL query
+            // which can be confirmed in the GQL playground
+            const ProjectsToRender = data.projects
+            
+            return (
+                <div>
+                {ProjectsToRender.map(project => <Project key={project.id} project={project} />)}
+                </div>
+            )
+            }
+          }
+      </Query>
     )
   }
 }

@@ -29,3 +29,95 @@ mutation{
     }
   }
 }
+
+
+
+
+
+
+
+CREATE THE PROJECT, AND SPECIFY WHAT YOU'D LIKE TO GET BACK
+mutation{
+  createUsers(
+    user_name: "Avi"
+    user_birthday: "12/12/12"
+    user_email: "This"
+    user_password: "passw"
+    user_role: CUSTOMER
+  ){
+    user_id
+    user_name
+  }
+}
+
+
+
+
+
+
+mutation{
+  createProject(
+    project_name: "Good Daughter",
+    project_year: 2017,
+    film_project: true,
+    avi_roles_on_project: {
+      avi_gaffer: true
+    }
+    project_media: {
+      video_url: "www.youtube.com"
+    }
+    project_category: {
+      short_film: true
+    }
+  ){
+    project_name
+  }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+# FRONT PAGE SLIDER
+# field selector
+query AviGafferSliderPayload{
+    Film_Project(avi_roles: "cinematographer"){
+        project_banner: media_item(media_type: "image_official_poster"){
+            image_1080p_url
+        }
+        project_year
+        project_name
+    }
+}
+
+
+
+
+
+# Define the fragment that will be assigned in the variable slideDetails of type
+# When implemented above, character returned from field hero is of droid type
+fragment slideDetails on DeckOfProjectSlides {
+    project{
+        project_banner: media_item(media_type: "image_banner_1080p")
+        project_year
+        project_name
+    }
+}
+
+
+
+query QueryName ($avi_role: AviRoleType!, $avi_director: BOOLEAN)
+    project($avi_role: "cinematographer"){
+        project_name
+        project_year
+        @include(if: $avi_director){
+
+        }
+    }
