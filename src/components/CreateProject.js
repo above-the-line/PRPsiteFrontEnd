@@ -201,7 +201,13 @@ class CreateProject extends Component {
         {/* wrap the button element with an Apollo <Mutation /> component
           the button is presented as a "render prop function" result
           and the gql query defined above CREATE_PROJECT_MUTATION is 
-          passed as a prop */}
+          passed as a prop 
+          
+          Due to React-router you now need to implement an automatic redirect
+          from the CreateProject component to the ProjectList component
+          after a mutation was performed. The React-router will now navigate
+          back to ProjectList that's accessible on the root route /
+          */}
         <Mutation mutation={CREATE_PROJECT_MUTATION} 
                   variables={
                     { project_name, 
@@ -228,6 +234,7 @@ class CreateProject extends Component {
                       }
                     }
                   }
+                  onCompleted={ () => this.props.history.push('/')}
         >
           {/* To make the button execute the mutation, we
           call the function that Apollo injects into the <Mutation /> 
