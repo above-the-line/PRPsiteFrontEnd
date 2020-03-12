@@ -7,9 +7,11 @@ import * as serviceWorker from './serviceWorker';
 import { ApolloProvider } from 'react-apollo'
 import { ApolloClient } from 'apollo-client'
 import { createHttpLink } from 'apollo-link-http'
+import { setContext } from 'apollo-link-context'
 import { InMemoryCache } from 'apollo-cache-inmemory'
-import { BrowserRouter } from 'react-router-dom'
+import { AUTH_TOKEN } from './constants'
 
+import { BrowserRouter } from 'react-router-dom'
 
 // create the httpLink that connects ApolloClient instance
 // with the GraphQL API (GQL server running on http://localhost:4000)
@@ -17,10 +19,26 @@ const httpLink = createHttpLink({
     uri: 'http://localhost:4000'
 })
 
+// get token from localStorage if exists,
+// return headers to context so httpLink can read them
+const authLink = setContext((_, { headers }) => {
+    const token = localStorage.getItem(AUTH_TOKEN)
+    return {
+      headers: {
+        ...headers,
+        authorization: token ? `Bearer ${token}` : ''
+      }
+    }
+  })
 
-// instantiate ApolloClient by passing in the httpLink and a new instance of an InMemoryCache
+
+
+// instantiate ApolloClient by passing in the httpLink
+// and a new instance of an InMemoryCache
+// arr.concat creates a new array that includes values 
+// from other arrays and additional items
 const client = new ApolloClient({
-    link: httpLink,
+    link: authLink.concat(httpLink),
     cache: new InMemoryCache()
 })
 

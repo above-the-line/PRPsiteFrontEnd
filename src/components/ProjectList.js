@@ -19,11 +19,13 @@ const PROJECTS_QUERY = gql`
         project_category{
           short_film
         }
+        avi_roles_on_project{
+          avi_director 
+          avi_gaffer
+        }
       }
     }
 `
-
-
 
 
 class ProjectList extends Component {

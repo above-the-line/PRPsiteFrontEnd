@@ -104,9 +104,9 @@ class CreateProject extends Component {
     const name = target.name;
     
     // take previous state and overwrite the needed property 
-    // EARLY TESTS SHOWED THAT FOR SOME REASON
-    // avi_cinematographer parameter also overwritten
-    // not sure why
+    // cinematographer value was being overwritten because 
+    // of an error in the mutation resolver
+    // gaffer response was being read by cinematographer variable
     this.setState( (state) => {  
       let updatedState = {
           ...state.avi_roles_on_project,
