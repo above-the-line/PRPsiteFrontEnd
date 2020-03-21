@@ -3,7 +3,7 @@ import { withApollo } from 'react-apollo'
 import SearchOptionsCheckboxes from './SearchOptionsCheckboxes'
 import SortProjectList from './SortProjectList';
 import gql from 'graphql-tag'
-
+import Button from '@material-ui/core/Button'
 
 // Apollo handles sending mutation to server
 // define the mutation and wrap your component 
@@ -131,6 +131,9 @@ class ProjectListContainer extends Component {
                 <SearchOptionsCheckboxes checkBoxOptions = {this.state.available_project_properties} 
                 container_function_checkbox_click_handler = {this.checkbox_click_handler}
                 />
+                <Button variant="contained" color="primary">
+                    Hello World
+                </Button>
             </div>
         )
     }
