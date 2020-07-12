@@ -172,7 +172,7 @@ class CreateProject extends Component {
           <input
             className="mb2"
             value={project_year}
-            onChange={e => this.setState({ project_year: e.target.value })}
+            onChange={e => this.setState({ project_year: parseInt(e.target.value) })}
             type="text"
             placeholder="The Year of the Project"
           />
