@@ -1,6 +1,8 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import './styles/index.css';
+import CssBaseline from '@material-ui/core/CssBaseline'
+import { ThemeProvider } from '@material-ui/core/styles'
+import theme from './styles/theme'
 import App from './components/App';
 import * as serviceWorker from './serviceWorker';
 
@@ -11,6 +13,7 @@ import { setContext } from 'apollo-link-context'
 import { InMemoryCache } from 'apollo-cache-inmemory'
 import { AUTH_TOKEN } from './constants'
 
+// Supporting HTML5 browsers only
 import { BrowserRouter } from 'react-router-dom'
 
 // create the httpLink that connects ApolloClient instance
@@ -49,10 +52,17 @@ const client = new ApolloClient({
 // that gets passed the client as a prop.
 // Also wrapped with BrowserRouter so that all child components
 // of App will get access to the routing functionality.
+// The main job of a <Router> component is to create a history object
+// to keep track of the location (URL). 
+// When the location changes because of a navigation action, 
+// the child component (in this case <App>) is re-rendered.
 ReactDOM.render(
     <BrowserRouter>
         <ApolloProvider client={client}>
-        <App />
+          <ThemeProvider theme={theme}>
+            <CssBaseline />
+            <App />
+          </ThemeProvider>
         </ApolloProvider>
     </BrowserRouter>,
     document.getElementById('root')

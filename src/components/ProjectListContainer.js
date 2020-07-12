@@ -1,9 +1,11 @@
 import React, { Component } from 'react'
 import { withApollo } from 'react-apollo'
-import SearchOptionsCheckboxes from './SearchOptionsCheckboxes'
-import SortProjectList from './SortProjectList';
 import gql from 'graphql-tag'
-import Button from '@material-ui/core/Button'
+
+import SortProjectList from './SortProjectList'
+import SpeedDialClass from './SpeedDialClass'
+import styles from '../styles/Styles.module.css'
+
 
 // Apollo handles sending mutation to server
 // define the mutation and wrap your component 
@@ -38,16 +40,17 @@ class ProjectListContainer extends Component {
                     "project_year": 2019,
                     "film_project": true,
                     "avi_roles_on_project": {
-                    "avi_director": null,
-                    "avi_gaffer": true,
-                    "avi_cinematographer": true,
-                    "avi_writer": true,
-                    "avi_camera_operator": null,
-                    "avi_lighting_technician": null,
-                    "avi_front_end_dev": null,
-                    "avi_back_end_dev": null,
-                    "avi_full_stack_dev": null
-                    }
+                        "avi_director": null,
+                        "avi_gaffer": true,
+                        "avi_cinematographer": true,
+                        "avi_writer": true,
+                        "avi_camera_operator": null,
+                        "avi_lighting_technician": null,
+                        "avi_front_end_dev": null,
+                        "avi_back_end_dev": null,
+                        "avi_full_stack_dev": null
+                    },
+
                 },
                 {
                     "id": "5e59da6a799ab500073dc8f6",
@@ -75,7 +78,7 @@ class ProjectListContainer extends Component {
                 "avi_writer",
                 "avi_camera_operator",
                 "avi_lighting_technician",
-            ]
+            ],
         }
         this.checkbox_click_handler = this.checkbox_click_handler.bind(this)
         this.executeSearch = this.executeSearch.bind(this)
@@ -96,7 +99,7 @@ class ProjectListContainer extends Component {
         this.state.project_properties_to_render.map(role => 
             gql_vars["rolesOfInterest"][role] = true)
         // keeps var names true to gql naming conventions
-        // set up in backend
+        // defined in backend
         const where = gql_vars
         const result = await this.props.client.query({
             query: FILTERED_GQL_QUERY,
@@ -109,32 +112,36 @@ class ProjectListContainer extends Component {
 
 
     // state hoisting for Props to display -- function passed as props to target child component
-    checkbox_click_handler = event => {
-        const name = event.target.name;   
+    checkbox_click_handler = propertyArray => {
+        // const name = event.target.name;
+        console.log(propertyArray)   
         // search whether the property name is not in the array (position returned <0)
         // if absent, add it; if present, remove it
-        this.setState( (state) => {  
-            if (state.project_properties_to_render.indexOf(name)<0){
-                state.project_properties_to_render.push(name)
-            } else {
-                state.project_properties_to_render.pop(name)
-            }
-            this.executeSearch();
-        });
+        // this.setState( (state) => {  
+        //     if (state.project_properties_to_render.indexOf(name)<0){
+        //         state.project_properties_to_render.push(name)
+        //     } else {
+        //         state.project_properties_to_render.pop(name)
+        //     }
+        //     this.executeSearch();
+        // });
     };
 
     render(){
         return( 
-            <div>
+            <div
+            className={styles.fullScreenContainer}
+            >
                 <SortProjectList projects = {this.state.gql_response}
                 />
-                <SearchOptionsCheckboxes checkBoxOptions = {this.state.available_project_properties} 
+                {/* <SearchOptionsSpeedDailer checkBoxOptions = {this.state.available_project_properties} 
+                container_function_checkbox_click_handler = {this.checkbox_click_handler}
+                /> */}
+                <SpeedDialClass 
                 container_function_checkbox_click_handler = {this.checkbox_click_handler}
                 />
-                <Button variant="contained" color="primary">
-                    Hello World
-                </Button>
             </div>
+            
         )
     }
 

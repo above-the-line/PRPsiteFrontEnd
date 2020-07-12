@@ -5,7 +5,6 @@ class SeachOptionsCheckboxes extends Component {
 
     render() {
         return (
-            //Create tickboxes for all properties in array declared above
             <div>
                 <div className="flex flex-column mt3">
                 {this.props.checkBoxOptions.map (property =>

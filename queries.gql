@@ -1,3 +1,21 @@
+QUERY
+query ArbitraryNameForfilterProjectsByRole($rolesOfInterest: Avi_RolesCreateInput){
+  filterProjectsByRole(where: $rolesOfInterest){
+    project_name
+  }
+}
+
+VAR
+{
+  "rolesOfInterest": {
+    "avi_gaffer": false
+  }
+}
+
+
+
+
+MUTATION
 mutation createUserAvi{
   createUser(
     user_name:"Avi",
